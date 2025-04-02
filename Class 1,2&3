@@ -10,7 +10,25 @@ Faster Deployment – Quickly start and stop applications.
 Consistency – Eliminates "it works on my machine" issues.
 Scalability – Easily scale applications using container orchestration tools like Kubernetes.
 
-Commands:
+1. Docker Image (Definition & Importance)
+✅ Definition:
+A Docker Image is a lightweight, stand-alone, and executable package that contains everything needed to run an application, including the code, runtime, libraries, and dependencies.
+✅ Importance:
+Acts as a blueprint for creating containers.
+Ensures consistency across different environments (dev, test, production).
+Enables portability—can be shared via Docker Hub or private registries.
+
+2. Docker Container (Definition & Importance)
+✅ Definition:
+A Docker Container is a running instance of a Docker Image that is isolated, lightweight, and can execute applications consistently across different environments.
+✅ Importance:
+Provides isolation (each container runs independently).
+Uses fewer resources than traditional VMs (lightweight).
+Enables scalability by quickly creating multiple containers.
+Supports DevOps & CI/CD workflows by ensuring consistent environments.
+
+
+Command to install docker on Amazonlinux server:
 Docker install on linux server : yum install docker -y
 
 Basic Docker Commands:
@@ -26,6 +44,64 @@ docker stop/start/pause/unpause <container_id>  --->stop/start/pause/unpause a r
 docker rm <container_id> -> deletes a stopped container
 docker rmi <image_id> --> deletes a docker image
 docker logs <container_id> --> Displays logs of a specific container
+docker run <image_name>/<image _id> -->creates and runs a new container from the image.
+Example: docker run amazonlinux --> creates and runs a new container from the Amazon Linux image.
+Note: If the amazonlinux image is not available locally, Docker will pull it from Docker Hub. The container will start, but it may exit immediately if no command is specified.
+
+docker run -it amazonlinux --> creates and runs a new container from the Amazon Linux image in interactive mode.
+Note: "-it" means interactive terminal
+
+docker run -itd amazonlinux -->Creates and runs a new Amazon Linux container in the background (detached mode).
+
+What is docker commit?
+docker commit is a command used to create a new Docker image from an existing container. It captures the current state of a running or stopped container and saves it as a new image.
+docker commit <container_name>/<container_id>
+
+Docker attach Vs Docker exec :::
+Docker attach : docker attach <container_id>	-> Connects to the main process of a running container , Exiting (Ctrl+C) may stop the container if it's running in the foreground.
+Docker exec : docker exec -it <container_id> /bin/bash -->
+Runs a new process inside an existing container,Does not affect the main process. Just adds another process and Safer for debugging because you can exit without stopping the container.
+
+Note: Use docker attach when you want to connect to the main process (but be careful with Ctrl+C).
+      Use docker exec when you want to run an extra command inside the container without stopping it.
+
+docker rename <container_name> <new_container_name>   --> is used to rename an existing Docker container.
+
+What is docker tag?
+The docker tag command assigns a new name (tag) to an existing Docker image.
+docker tag <existing_image> <new_image_name>:<tag>
+
+Remove all containers and all images:
+
+Remove all containers (running and stopped) ::
+docker rm -f $(docker ps -aq)
+Explanation:
+docker ps -aq → Lists all container IDs.
+docker rm -f → Forcefully removes them.
+
+Remove all Images (running and stopped) ::
+docker rmi -f $(docker images -aq) 
+Explanation ::
+docker images -aq → Lists all image IDs.
+docker rmi -f → Forcefully removes them.
+
+Remove Everything (Containers, Images, Networks, Volumes) ::
+Command : docker system prune -a --volumes
+-a → Removes all unused containers, images, and networks.
+--volumes → Also removes unused volumes.
+
+docker top <container_id> --> Shows the running processes inside a container.
+docker stats <container_id> ---> Shows real-time resource usage (CPU, memory, network, etc.) of a running container.
+
+
+
+
+
+
+
+
+
+
 
 
 
