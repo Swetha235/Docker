@@ -31,6 +31,10 @@ Supports DevOps & CI/CD workflows by ensuring consistent environments.
 Command to install docker on Amazonlinux server:
 Docker install on linux server : yum install docker -y
 
+Docker service start/stop:
+systemctl start dcoker
+systemctl stop docker
+
 Basic Docker Commands:
 
 docker -v or docker --version -> to check the installed docker version
@@ -94,7 +98,7 @@ docker top <container_id> --> Shows the running processes inside a container.
 docker stats <container_id> ---> Shows real-time resource usage (CPU, memory, network, etc.) of a running container.
 
 
-docker run -it --name container1 -p 8080:80 <image_name> --> This command creates and runs a Docker container with specific configurations.
+docker run -it --name container1 -p 8080(hostport):80(containerport) <image_name> --> This command creates and runs a Docker container with specific configurations.
 -it                 : Runs in interactive mode with a terminal (TTY).
 --name  container1  : Assigns the name "container1" to the container.
 -p 8080:80  	  : Maps port 80 inside the container to port 8080 on the host.
@@ -115,6 +119,31 @@ docker login (give our docker username and password after prompt)
 ✅ Definition: The docker pull command downloads a Docker image from a remote registry to your local system.
 ✅ Syntax: docker pull <repository_name>/<image_name>:<tag>
    Example: docker pull amazonlinux:latest
+
+docker cp Command : The docker cp command copies files between the host system and a running or stopped Docker container.
+syntax: docker cp <source> <destination>
+Example:: docker cp index.html <container_name>:/var/www/html/index.html   (copy from host to container)
+          docker cp <container_id>:/var/log/log.txt /home/user/  (copy from container to host)
+
+How to launch an web application in container:
+
+create a container:
+docker run -it --name cont1 -p 8080:80 amazonlinux
+then we enter into container and install httpd
+yum install httpd -y
+we have to start httpd service but systemctl will not work as it is not host it's just a process so we have to execute script using below
+cd /usr/sbin
+./httpd (https service will started)
+then install vim editor
+yum install vi -y
+cd /var/www/html
+vi index.html (enter some thing)
+and access the url(host:8080) in browser
+
+
+
+
+
 
 
 
