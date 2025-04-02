@@ -1,0 +1,31 @@
+what is docker and why it is important?
+
+Docker is a containerization platform that helps developers package applications and their dependencies into lightweight, portable containers. 
+These containers can run consistently across different environments, from a developer’s laptop to production servers.
+
+Why is Docker important?
+Portability – Works the same on any system (Linux, Windows, cloud, etc.).
+Efficiency – Uses fewer resources than traditional virtual machines.
+Faster Deployment – Quickly start and stop applications.
+Consistency – Eliminates "it works on my machine" issues.
+Scalability – Easily scale applications using container orchestration tools like Kubernetes.
+
+Commands:
+Docker install on linux server : yum install docker -y
+
+Basic Docker Commands:
+
+docker -v or docker --version -> to check the installed docker version
+docker info -->  Displays system-wide information about Docker.
+docker pull <image name>  --> pull the image from docker hub
+example: docker pull amazonlinux
+docker images --> show all downloaded images
+docker ps -a --> show all containers including stopped ones
+docker ps --> shows active containers
+docker stop/start/pause/unpause <container_id>  --->stop/start/pause/unpause a running container
+docker rm <container_id> -> deletes a stopped container
+docker rmi <image_id> --> deletes a docker image
+docker logs <container_id> --> Displays logs of a specific container
+
+
+
