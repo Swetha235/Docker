@@ -94,6 +94,28 @@ docker top <container_id> --> Shows the running processes inside a container.
 docker stats <container_id> ---> Shows real-time resource usage (CPU, memory, network, etc.) of a running container.
 
 
+docker run -it --name container1 -p 8080:80 <image_name> --> This command creates and runs a Docker container with specific configurations.
+-it                 : Runs in interactive mode with a terminal (TTY).
+--name  container1  : Assigns the name "container1" to the container.
+-p 8080:80  	  : Maps port 80 inside the container to port 8080 on the host.
+<image_name>        : The name of the Docker image to use (e.g. httpd).
+
+Note: -p 8080:80 exposes port 80 from the container to port 8080 on the host.
+
+docker push and docker pull Commands ::
+
+1. docker push (Upload Image to Repository)
+✅ Definition: The docker push command uploads a local Docker image to a remote registry (e.g., Docker Hub, AWS ECR).
+✅ Syntax: docker push <repository_name>/<image_name>:<tag>
+Example: docker push bswetha235/swetha:git
+✅ Prerequisite: Must log in first
+docker login (give our docker username and password after prompt)
+
+2. docker pull (Download Image from Repository)
+✅ Definition: The docker pull command downloads a Docker image from a remote registry to your local system.
+✅ Syntax: docker pull <repository_name>/<image_name>:<tag>
+   Example: docker pull amazonlinux:latest
+
 
 
 
