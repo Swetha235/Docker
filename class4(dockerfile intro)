@@ -29,7 +29,8 @@ Use a volume in a container : docker run -it --name ct1 -v vol1:/app/logs amazon
 
 Note: Volumes are the best way to persist data in Docker.
 
-Docker file: A Dockerfile is a script with a set of instructions to automatically build a Docker image. It defines the base image, dependencies, configurations, and commands needed to run an application.
+Docker file: A Dockerfile is a script with a set of instructions to automatically build a Docker image. 
+It defines the base image, dependencies, configurations, and commands needed to run an application.
 
 Why Dockerfile is Better than docker commit?
 Automation & Repeatability – A Dockerfile provides a structured way to build images automatically, while docker commit is a manual process and not reproducible.
