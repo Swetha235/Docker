@@ -1,0 +1,65 @@
+Docker containers - Ephimeral ::
+Docker containers are ephemeral by nature, meaning they are temporary and stateless unless you explicitly persist data using volumes or bind mounts.
+If a container stops or is deleted, all changes inside it (except those stored externally) are lost. 🚀
+
+To persist data in Docker containers, you can:
+Use Volumes 📦 → Store data in Docker-managed locations (docker volume create mydata).
+example: -v vol1: /app/logs (-v volume:container path)
+Use Bind Mounts 📂 → Link a host directory to the container (-v /host/path:/container/path).
+
+Docker Volume command:
+
+create a volume:  docker volume create <vol_name>
+List all volumes : docker volume ls
+Inspect a volume: docker volume inspect <vol_name>
+Remove a volume : docker volume rm <vol_name>
+Remove all unused volumes : docker volume prune
+Use a volume in a container : docker run -it --name ct1 -v vol1:/app/logs amazonlinux
+
+Note: Volumes are the best way to persist data in Docker.
+
+Docker file: A Dockerfile is a script with a set of instructions to automatically build a Docker image. It defines the base image, dependencies, configurations, and commands needed to run an application.
+
+Why Dockerfile is Better than docker commit?
+Automation & Repeatability – A Dockerfile provides a structured way to build images automatically, while docker commit is a manual process and not reproducible.
+Version Control – Dockerfiles can be stored in Git, making it easy to track changes. docker commit does not allow version tracking.
+Portability – Dockerfiles can be shared and rebuilt on any system, whereas a committed container is tied to a specific environment.
+Best Practices – Dockerfiles follow DevOps principles and CI/CD workflows, ensuring consistency. docker commit is not recommended for production use.
+
+Example of a docker file:
+
+FROM amazonlinux
+RUN yum install httpd -y
+COPY index.html /var/www/html/index.html
+CMD ["/usr/sbin/httpd","-D","FOREGROUND"]
+EXPOSE 80
+
+using above docker file we can build an image by below command
+SYNTAX: docker build -t testimage:httpd -f dockerfile .
+
+Explanation:
+docker build → Builds a Docker image from a Dockerfile.
+-t testimage:httpd → Assigns a name (testimage) and a tag (httpd) to the image.
+-f dockerfile → Specifies the Dockerfile to use. If omitted, Docker looks for a file named Dockerfile by default.
+. → The build context (current directory), meaning Docker will use files from this location.
+
+once we build the image then we can create a container from that using below command
+docker run -it --name ct1 -p 8081:80 <Image_name/image_id>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
