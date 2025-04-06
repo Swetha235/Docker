@@ -108,3 +108,101 @@ FROM scratch
 COPY --from=buildstage /opt/calculatorapp/calculator /opt/calculatorapp/calculator
 ENTRYPOINT ["/opt/calculatorapp/calculator"]
 
+#################################################
+
+
+How to reduce docker size image:
+https://devopscube.com/reduce-docker-image-size/
+
+
+1 ) Use Minimal Base Images
+Your first focus should be on choosing the right base image with a minimal OS footprint.
+One such example is alpine base images. Alpine images can be as small as 5.59MB. It's not just small; it's very secure as well.
+
+2) Utilize Multi-Stage Builds:
+Use multi-stage builds to separate build-time dependencies from runtime dependencies.
+The final image will only contain the necessary artifacts for running the application, resulting in a smaller image size. 
+The idea behind this is to eliminate unwanted layers in the image.
+
+3) Minimize Layers:
+Combine multiple commands into a single RUN instruction to reduce the number of layers. 
+Each layer adds overhead, so fewer layers lead to faster build times and smaller image sizes. 
+
+4) Use Dockerignore :
+As a rule, only the necessary files need to be copied over the docker image.
+Docker can ignore the files present in the working directory if configured in the .dockerignore file.
+It also improves caching by ignoring unnecessary files and prevents unnecessary cache invalidation.
+
+5) Leverage Compression Tools:
+Docker automatically compresses image layers, but you can further optimize this by using compression tools manually.
+For example, when installing packages or binaries, you can use compression tools like gzip or tar to minimize the file size before copying them to the final image.
+
+6)Clean Up After Installations:
+Remove unnecessary files and clean up package managers after installing packages. 
+For example, use rm -rf /var/lib/apt/lists/* to clear the apt cache. 
+
+
+###################################################
+Docker Network :
+A Docker network allows containers to communicate with each other, with the host, or with the outside world. It isolates communication and manages how containers interact.
+
+
+Types of Docker Networks:
+bridge – Default network for standalone containers.
+host – Shares the host’s network stack.
+none – No networking at all.
+overlay – Used in Docker Swarm for multi-host networking.
+macvlan – Assigns a MAC address to containers (advanced use).
+
+what is docker0?
+docker0 is the default virtual bridge network created by Docker on the host machine. It acts like a virtual switch to allow containers to communicate with each other and with the host.
+
+For containers, IP is assigned from bridge network(as defaault) like 172.17.0.2
+172.17.0.1 -> assigned to docker0 for gateway
+
+how to install ping in ubuntu: apt install iputils-ping -y
+
+Docker network comamnds:
+List networks: docker network ls
+Inspect a network(view detials) : docker network inspect <network_name>
+how to create own network : docker create network <network_name> ( network will get like 172.18.0.2)
+
+how to create own network with particular subnet  : docker network create --subnet 10.81.0.0/16 swethanetwork
+if we create a container in this subnet Ip assigned as 10.81.0.2 
+
+how to create a container in particular subnet : docker run -it --name ct1 --network swethanetwork <image_name/image_id>
+
+how to create a container with custom IP address in particular subnet(10.81.0.1 ->swethanetwork) : docker run -it --name ct3 --network swethanetwork --ip 10.81.8.88 <image_name/image_id>
+
+how to remove networks : docker network rm <network_name>
+
+#######################################
+
+why should we not to use docker host network
+While the Docker host network has its use cases, it’s generally not recommended for most applications, especially in production.
+
+Why NOT to Use Docker Host Network?
+No Port Isolation:
+Containers share the host’s network stack.
+Multiple containers can't listen on the same port, which leads to port conflicts.
+
+Less Security:
+No network isolation — containers have direct access to host's network.
+Makes your host more vulnerable to attacks from a compromised container.
+
+Harder to Debug :
+Since containers use the host IP, it’s hard to trace which container is handling traffic.
+
+Not Cross-Platform :
+Host network doesn’t work on Docker Desktop for Windows/Mac — only works on Linux.
+
+Breaks Some Docker Features:
+Some Docker networking tools (like DNS resolution, links, custom bridges) won’t work properly.
+
+
+
+ 
+
+
+
+
