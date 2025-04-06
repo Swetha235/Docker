@@ -1,0 +1,22 @@
+MULTISTAGE DOCKER: (Java Maven Build + Tomcat Deploy Dockerfile)
+
+##artifact build stage 
+FROM maven AS buildstage  ### This stage starts from a Maven image (pre-installed with Maven and Java). AS buildstage gives this stage a name for later use.
+RUN mkdir /opt/mindcircuit15  ###Creates /opt/mindcircuit15 directory.
+WORKDIR /opt/mindcircuit15    ### moves into the /opt/mindcircuit15 directory.
+COPY . .                      #### Copies all files from your local project folder into the container.
+RUN mvn clean install    ## Produces a .war file in the target/ folder
+
+### tomcat deploy stage 
+FROM tomcat              #########Starts a new, clean stage from the official Tomcat image.
+WORKDIR webapps          ##### Sets the working directory to webapps, where Tomcat looks for apps to run.
+COPY --from=buildstage /opt/mindcircuit15/target/*.war .       #### Copies the .war file from the first stage (buildstage) to the Tomcat webapps directory.
+RUN rm -rf ROOT && mv *.war ROOT.war  ##### Deletes the default Tomcat app (ROOT). Renames your .war file to ROOT.war so it gets deployed at http://localhost:8080/ (root context).
+EXPOSE 8080  #### Opens port 8080 so you can access the app from outside the container.
+
+
+
+
+
+
+
