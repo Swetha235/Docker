@@ -1,1 +1,8 @@
+Docker Compose is a tool that lets you define and run multi-container Docker applications using a simple YAML file (docker-compose.yml).
+Instead of running multiple docker run commands manually, you define everything in one file and run it all with one command.
 
+Key Features:
+Run multiple containers together (e.g., web + DB)
+Easy to manage services
+Network, volumes, ports — all in one config file
+Great for development, testing, and CI/CD
