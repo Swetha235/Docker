@@ -15,6 +15,22 @@ RUN rm -rf ROOT && mv *.war ROOT.war  ##### Deletes the default Tomcat app (ROOT
 EXPOSE 8080  #### Opens port 8080 so you can access the app from outside the container.
 
 
+######################################################
+FROM maven AS buildstage 
+RUN mkdir /opt/mindcircuit15 
+WORKDIR /opt/mindcircuit15 
+COPY . .                     
+RUN mvn clean install
+
+### tomcat deploy stage 
+FROM tomcat              
+WORKDIR webapps         
+COPY --from=buildstage /opt/mindcircuit15/target/*.war . 
+RUN rm -rf ROOT && mv *.war ROOT.war
+EXPOSE 8080  #### Opens port 8080 
+
+
+
 
 
 
